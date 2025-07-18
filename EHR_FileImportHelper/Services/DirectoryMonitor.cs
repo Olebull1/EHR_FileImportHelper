@@ -12,7 +12,7 @@ namespace EHR_FileImportHelper.Services
         public void Start(string directory)
         {
             Stop();
-
+            Console.WriteLine("[DirectoryMonitor] Started");
             _watcher = new FileSystemWatcher(directory)
             {
                 EnableRaisingEvents = true,

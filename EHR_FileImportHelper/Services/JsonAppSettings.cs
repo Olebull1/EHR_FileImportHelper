@@ -12,7 +12,7 @@ namespace EHR_FileImportHelper.Services
 
         public string SourceDirectory { get; set; } = "";
         public string DestinationDirectory { get; set; } = "";
-        public bool isErg { get; set; } = false;
+        public bool IsErg { get; set; } = false;
 
         private readonly string _filePath;
 
@@ -36,7 +36,7 @@ namespace EHR_FileImportHelper.Services
                 {
                     SourceDirectory = loaded.SourceDirectory;
                     DestinationDirectory = loaded.DestinationDirectory;
-                    isErg = loaded.isErg;
+                    IsErg = loaded.IsErg;
                 }
             }
             catch
@@ -55,6 +55,6 @@ namespace EHR_FileImportHelper.Services
     {
         public string SourceDirectory { get; set; } = "C:/Watched";
         public string DestinationDirectory { get; set; } = "C:/Imported";
-        public bool isErg { get; set; } = false;
+        public bool IsErg { get; set; } = false;
     }
 }

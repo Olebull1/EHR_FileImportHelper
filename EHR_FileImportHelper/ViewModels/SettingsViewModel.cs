@@ -19,7 +19,7 @@ namespace EHR_FileImportHelper.ViewModels
 
             _sourceDirectory = settings.SourceDirectory;
             _destinationDirectory = settings.DestinationDirectory;
-            _isErg = settings.isErg;
+            _isErg = settings.IsErg;
 
             BrowseSourceCommand = new RelayCommand(BrowseSource);
             BrowseDestinationCommand = new RelayCommand(BrowseDestination);
@@ -41,7 +41,7 @@ namespace EHR_FileImportHelper.ViewModels
             set => SetProperty(ref _destinationDirectory, value);
         }
         private bool _isErg;
-        public bool _IsErg
+        public bool IsErg
         {
             get => _isErg;
             set => SetProperty(ref _isErg, value);
@@ -69,6 +69,7 @@ namespace EHR_FileImportHelper.ViewModels
         {
             _settings.SourceDirectory = SourceDirectory;
             _settings.DestinationDirectory = DestinationDirectory;
+            _settings.IsErg = IsErg;
             _settings.Save();
             _window.DialogResult = true;
             _window.Close();

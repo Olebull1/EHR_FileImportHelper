@@ -3,17 +3,10 @@ using System.IO;
 
 namespace EHR_FileImportHelper.ViewModels
 {
-    public sealed class FileItemViewModel : ObservableObject
+    public sealed class FileItemViewModel(string fullPath) : ObservableObject
     {
-        public string Name { get; }
-        public string FullPath { get; }
-        public DateTime Created { get; }
-
-        public FileItemViewModel(string fullPath)
-        {
-            FullPath = fullPath;
-            Name = Path.GetFileName(fullPath);
-            Created = File.GetCreationTime(fullPath);
-        }
+        public string Name { get; } = Path.GetFileName(fullPath);
+        public string FullPath { get; } = fullPath;
+        public DateTime Created { get; } = File.GetCreationTime(fullPath);
     }
 }
