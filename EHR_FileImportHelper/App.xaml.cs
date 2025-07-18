@@ -19,20 +19,15 @@ namespace EHR_FileImportHelper
 
             // Register both monitors
             services.AddTransient<DirectoryMonitor>();
-            services.AddTransient<ErgDirectoryMonitor>();
 
-            // Register monitor selector based on ERG flag
+            // Factory to return monitor conditionally(If more get added)
             services.AddSingleton<Func<IDirectoryMonitor>>(sp => () =>
             {
                 var settings = sp.GetRequiredService<IAppSettings>();
-                return settings.IsErg
-                    ? sp.GetRequiredService<ErgDirectoryMonitor>() as IDirectoryMonitor
-                    : sp.GetRequiredService<DirectoryMonitor>();
+                return sp.GetRequiredService<DirectoryMonitor>();
             });
 
             // Settings window factory
-            //services.AddTransient<Views.SettingsWindow>();
-            //services.AddSingleton<Func<Views.SettingsWindow>>(sp => () => sp.GetRequiredService<Views.SettingsWindow>());
             services.AddTransient<Views.SettingsWindow>();
             services.AddSingleton<Func<Window>>(sp => () => sp.GetRequiredService<Views.SettingsWindow>());
 

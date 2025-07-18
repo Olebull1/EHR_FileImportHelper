@@ -37,12 +37,6 @@
         <Button Grid.Row="2" Grid.Column="3" Content="Browse..." Margin="5,0,0,0"
                 Command="{Binding BrowseDestinationCommand}" />
 
-        <!-- ERG Checkbox -->
-        <CheckBox Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4"
-                  Content="ERG"
-                  IsChecked="{Binding IsErg}"
-                  Margin="0,5,0,0" />
-
         <!-- Save / Cancel Buttons -->
         <StackPanel Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="4"
                     Orientation="Horizontal" HorizontalAlignment="Right">
