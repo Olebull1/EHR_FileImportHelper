@@ -3,6 +3,7 @@ using EHR_FileImportHelper.Services;
 using System.Windows.Forms;
 using System.Windows;
 using Microsoft.Win32;
+using System.Diagnostics.Eventing.Reader;
 
 namespace EHR_FileImportHelper.ViewModels
 {
@@ -18,6 +19,7 @@ namespace EHR_FileImportHelper.ViewModels
 
             _sourceDirectory = settings.SourceDirectory;
             _destinationDirectory = settings.DestinationDirectory;
+            _isErg = settings.isErg;
 
             BrowseSourceCommand = new RelayCommand(BrowseSource);
             BrowseDestinationCommand = new RelayCommand(BrowseDestination);
@@ -38,7 +40,12 @@ namespace EHR_FileImportHelper.ViewModels
             get => _destinationDirectory;
             set => SetProperty(ref _destinationDirectory, value);
         }
-
+        private bool _isErg;
+        public bool _IsErg
+        {
+            get => _isErg;
+            set => SetProperty(ref _isErg, value);
+        }
         public RelayCommand BrowseSourceCommand { get; }
         public RelayCommand BrowseDestinationCommand { get; }
         public RelayCommand SaveCommand { get; }

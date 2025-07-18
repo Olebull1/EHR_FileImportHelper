@@ -3,8 +3,10 @@ using EHR_FileImportHelper.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Runtime;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Shapes;
 using System.Windows.Threading;
 
 namespace EHR_FileImportHelper.ViewModels
@@ -50,6 +52,7 @@ namespace EHR_FileImportHelper.ViewModels
 
         public string SourceDirectory => _settings.SourceDirectory;
         public string DestinationDirectory => _settings.DestinationDirectory;
+        public bool IsErg => _settings.isErg;
 
         public AsyncRelayCommand ImportCommand { get; }
         public RelayCommand SettingsCommand { get; }
@@ -57,6 +60,17 @@ namespace EHR_FileImportHelper.ViewModels
         // ───────────────────────── Logic ─────────────────────────
 
         private void StartMonitoring()
+        {
+            if(_settings.isErg)
+            {
+                StartErgModeMonitor();
+            }
+            else
+            {
+                StartDefaultMonitor();
+            }
+        }
+        private void StartDefaultMonitor()
         {
             _monitor.Stop();
             _monitor.FileCreated -= OnFileCreated;
@@ -79,6 +93,37 @@ namespace EHR_FileImportHelper.ViewModels
             _monitor.FileCreated += OnFileCreated;
             _monitor.Start(_settings.SourceDirectory);
 
+            //Forced UI refresh for property in the scenerio where the settings triggered this run.
+            OnPropertyChanged(nameof(SourceDirectory));
+            OnPropertyChanged(nameof(DestinationDirectory));
+        }
+        private void StartErgModeMonitor()
+        {
+            /*
+             * Replace entire function with seperate monitoring logic for erg mode.
+             * 
+             */
+            _monitor.Stop();
+            _monitor.FileCreated -= OnFileCreated;
+
+            Files.Clear();
+
+            // Only proceed if both paths are set and exist
+            if (string.IsNullOrWhiteSpace(_settings.SourceDirectory) ||
+                string.IsNullOrWhiteSpace(_settings.DestinationDirectory))
+            {
+                return; // Skip startup logic
+            }
+
+            if (!Directory.Exists(_settings.SourceDirectory))
+                return;
+
+            foreach (var path in Directory.GetFiles(_settings.SourceDirectory))
+                Files.Add(new FileItemViewModel(path));
+
+            _monitor.FileCreated += OnFileCreated;
+            _monitor.Start(_settings.SourceDirectory);
+            //Forced UI refresh for property in the scenerio where the settings triggered this run.
             OnPropertyChanged(nameof(SourceDirectory));
             OnPropertyChanged(nameof(DestinationDirectory));
         }
